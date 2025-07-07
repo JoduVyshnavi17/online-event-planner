@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Decorations in Hyderabad</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-bottom:100px ;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar .hamburger {
+            width: 40px;
+            height: 6px;
+            background-color: white;
+            margin: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar:hover {
+            width: 200px;
+        }
+
+        .sidebar .options {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+
+        .sidebar:hover .options {
+            display: flex;
+        }
+
+        .sidebar .options a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            text-align: left;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .options a {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .container {
+            margin-left: 80px;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+        }
+
+        /* Event List */
+        .event-list {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        /* Remove underline and blue color from the anchor links */
+        .event a {
+            text-decoration: none; /* Remove underline */
+            color: inherit; /* Make the text color the same as surrounding text */
+        }
+
+        .event {
+            padding: 15px;
+            margin: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border: 1px solid #ddd;
+        }
+
+        .event:hover {
+            transform: scale(1.05);
+        }
+
+        .event h3 {
+            margin: 0;
+        }
+
+        .event img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+        
+        <div class="options">
+            <a href="fontpage.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Event Decorations in Hyderabad</h1>
+
+        <!-- Event List -->
+        <div id="eventList" class="event-list">
+            <!-- Birthday Decoration -->
+            <div class="event">
+                <a href="birthdaydecoration.html">
+                    <h3>Birthday Decoration</h3>
+                    <img src="https://www.photojaanic.com/blog/wp-content/uploads/sites/2/2019/05/01-1080x720.jpg" alt="Birthday Decoration">
+                </a>
+            </div>
+
+            <!-- Wedding Decoration -->
+            <div class="event">
+                <a href="weddingdecoration.html">
+                    <h3>Wedding Decoration</h3>
+                    <img src="https://5.imimg.com/data5/MN/VW/WX/ANDROID-55589818/product-jpeg-500x500.jpg" alt="Wedding Decoration">
+                </a>
+            </div>
+
+            <!-- Anniversary Decoration -->
+            <div class="event">
+                <a href="anniversarydecoration.html">
+                    <h3>Anniversary Decoration</h3>
+                    <img src="https://festop.in/wp-content/uploads/2024/02/First-Anniversary-Wall-Decor.webp" alt="Anniversary Decoration">
+                </a>
+            </div>
+
+            <!-- Engagement Decoration -->
+            <div class="event">
+                <a href="engagementdecoration.html">
+                    <h3>Engagement Decoration</h3>
+                    <img src="https://5.imimg.com/data5/SELLER/Default/2024/2/383848961/NE/GP/ZY/4494602/engagement-ceremony-classic-decoration.png" alt="Engagement Decoration">
+                </a>
+            </div>
+
+            <!-- Housewarming Decoration -->
+            <div class="event">
+                <a href="housewarmingDecoration.html">
+                    <h3>Housewarming Decoration</h3>
+                    <img src="https://lh6.googleusercontent.com/JSgvqCi-i-wKd9RI_295bzIDYJTwvS1iadUZ9gJuUX7yS4SEMkDAvQns9fANFYJbsn89aVJPBOFxS7rx4p9hFno21waPx6aR5Mv8qrLN-Bnuc-VdoMFizYm5t_XxI9CKUiyR8yoNQzpqauMzLtqTYu8" alt="Housewarming Decoration">
+                </a>
+            </div>
+
+            <!-- Baby Shower Decoration -->
+            <div class="event">
+                <a href="babyshowerdecoration.html">
+                    <h3>Baby Shower Decoration</h3>
+                    <img src="https://cheetah.cherishx.com/uploads/1657198835_original.jpg" alt="Baby Shower Decoration">
+                </a>
+            </div>
+
+            <!-- Retirement Decoration -->
+            <div class="event">
+                <a href="retirementdecoration.html">
+                    <h3>Retirement Decoration</h3>
+                    <img src="https://www.partyone.in/suploads/2023/Nov/23/38325/1700736715Gold%20and%20Black%20Decor.webp" alt="Retirement Decoration">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>All Rights Reserved © 2025 Event Decorations in Hyderabad</p>
+    </footer>
+
+</body>
+</html>

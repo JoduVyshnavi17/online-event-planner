@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar .hamburger {
+            width: 40px;
+            height: 6px;
+            background-color: white;
+            margin: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar:hover {
+            width: 200px;
+        }
+
+        .sidebar .options {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+
+        .sidebar:hover .options {
+            display: flex;
+        }
+
+        .sidebar .options a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            text-align: left;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .options a {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .container {
+            margin-left: 80px;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            margin-bottom: 100px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+        /* Event Section */
+        .event-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .event-item {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .event-item p {
+            font-size: 24px;
+            margin-top: 0;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .event-item img {
+            width: 100%;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .reviews {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .reviews button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .reviews button:hover {
+            background-color: #45a049;
+        }
+
+        .reviews button.cancel {
+            background-color: #f44336;
+        }
+
+        .reviews button.cancel:hover {
+            background-color: #d32f2f;
+        }
+
+        .review-list {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .review-list p {
+            font-size: 14px;
+            margin: 5px 0;
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review-list p:last-child {
+            border-bottom: none;
+        }
+
+        .review-form {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .review-form textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .review-form div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-form label {
+            font-size: 16px;
+        }
+
+        .review-form input[type="number"] {
+            width: 60px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+
+        <div class="options">
+            <a href="fontpage.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Event Management</h1>
+
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search for Event Organizations..." onkeyup="searchEvents()">
+
+        <div class="event-section" id="eventList">
+            <div class="event-item" data-name="Classic Events">
+                <p>Classic Events</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCnKa8Dc0WkC1Nf6iwsLK_3Ija_J2l0zujVA&s" alt="Classic Events">
+                <div class="reviews">
+                    <button class="show-reviews" onclick="toggleReviews(this, 'Classic')">Show Reviews</button>
+                    <div id="reviewsClassic" class="review-list" style="display: none;">
+                        </div>
+                    <button class="add-review" onclick="toggleReviewForm(this, 'Classic')">Add Review</button>
+                    <div id="reviewFormClassic" class="review-form">
+                        <textarea id="reviewTextClassic" placeholder="Write your review here..."></textarea>
+                        <div>
+                            <label for="ratingClassic">Rating (1-5):</label>
+                            <input type="number" id="ratingClassic" min="1" max="5" value="5">
+                        </div>
+                        <button onclick="submitReview('Classic')">Submit Review</button>
+                        <button class="cancel" onclick="toggleReviewForm(this, 'Classic')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="event-item" data-name="Royal Events">
+                <p>Royal Events</p>
+                <img src="https://www.shutterstock.com/image-vector/event-company-logo-royal-name-260nw-2170203157.jpg" alt="Royal Events">
+                <div class="reviews">
+                    <button class="show-reviews" onclick="toggleReviews(this, 'Royal')">Show Reviews</button>
+                    <div id="reviewsRoyal" class="review-list" style="display: none;">
+                        </div>
+                    <button class="add-review" onclick="toggleReviewForm(this, 'Royal')">Add Review</button>
+                    <div id="reviewFormRoyal" class="review-form">
+                        <textarea id="reviewTextRoyal" placeholder="Write your review here..."></textarea>
+                        <div>
+                            <label for="ratingRoyal">Rating (1-5):</label>
+                            <input type="number" id="ratingRoyal" min="1" max="5" value="5">
+                        </div>
+                        <button onclick="submitReview('Royal')">Submit Review</button>
+                        <button class="cancel" onclick="toggleReviewForm(this, 'Royal')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="event-item" data-name="Elite Events">
+                <p>Elite Events</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyF3zhh4Y8QHHzQfy8gFYMPA1pqXLRbUtFPA&s" alt="Elite Events">
+                <div class="reviews">
+                    <button class="show-reviews" onclick="toggleReviews(this, 'Elite')">Show Reviews</button>
+                    <div id="reviewsElite" class="review-list" style="display: none;">
+                        </div>
+                    <button class="add-review" onclick="toggleReviewForm(this, 'Elite')">Add Review</button>
+                    <div id="reviewFormElite" class="review-form">
+                        <textarea id="reviewTextElite" placeholder="Write your review here..."></textarea>
+                        <div>
+                            <label for="ratingElite">Rating (1-5):</label>
+                            <input type="number" id="ratingElite" min="1" max="5" value="5">
+                        </div>
+                        <button onclick="submitReview('Elite')">Submit Review</button>
+                        <button class="cancel" onclick="toggleReviewForm(this, 'Elite')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="event-item" data-name="Good Events">
+                <p>Good Events</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSmNqQJ6ixVmFj1DjJL31jjaY_Nb7xCeiUZQ&s" alt="Good Events">
+                <div class="reviews">
+                    <button class="show-reviews" onclick="toggleReviews(this, 'Good')">Show Reviews</button>
+                    <div id="reviewsGood" class="review-list" style="display: none;">
+                        </div>
+                    <button class="add-review" onclick="toggleReviewForm(this, 'Good')">Add Review</button>
+                    <div id="reviewFormGood" class="review-form">
+                        <textarea id="reviewTextGood" placeholder="Write your review here..."></textarea>
+                        <div>
+                            <label for="ratingGood">Rating (1-5):</label>
+                            <input type="number" id="ratingGood" min="1" max="5" value="5">
+                        </div>
+                        <button onclick="submitReview('Good')">Submit Review</button>
+                        <button class="cancel" onclick="toggleReviewForm(this, 'Good')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="event-item" data-name="Amma Events">
+                <p>Amma Events</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbHBvMxH1VdZdGjH7qAvVN1sglJz__DI7njg&s" alt="Amma Events">
+                <div class="reviews">
+                    <button class="show-reviews" onclick="toggleReviews(this, 'Amma')">Show Reviews</button>
+                    <div id="reviewsAmma" class="review-list" style="display: none;">
+                        </div>
+                    <button class="add-review" onclick="toggleReviewForm(this, 'Amma')">Add Review</button>
+                    <div id="reviewFormAmma" class="review-form">
+                        <textarea id="reviewTextAmma" placeholder="Write your review here..."></textarea>
+                        <div>
+                            <label for="ratingAmma">Rating (1-5):</label>
+                            <input type="number" id="ratingAmma" min="1" max="5" value="5">
+                        </div>
+                        <button onclick="submitReview('Amma')">Submit Review</button>
+                        <button class="cancel" onclick="toggleReviewForm(this, 'Amma')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="event-item" data-name="Arambaham Events">
+                <p>Arambaham Events</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI4uMW653gq1Eab0q5223oFo-JbeeCPfqmNA&s" alt="Arambaham Events">
+                <div class="reviews">
+                    <button class="show-reviews" onclick="toggleReviews(this, 'Arambaham')">Show Reviews</button>
+                    <div id="reviewsArambaham" class="review-list" style="display: none;">
+                        </div>
+                    <button class="add-review" onclick="toggleReviewForm(this, 'Arambaham')">Add Review</button>
+                    <div id="reviewFormArambaham" class="review-form">
+                        <textarea id="reviewTextArambaham" placeholder="Write your review here..."></textarea>
+                        <div>
+                            <label for="ratingArambaham">Rating (1-5):</label>
+                            <input type="number" id="ratingArambaham" min="1" max="5" value="5">
+                        </div>
+                        <button onclick="submitReview('Arambaham')">Submit Review</button>
+                        <button class="cancel" onclick="toggleReviewForm(this, 'Arambaham')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>All Rights Reserved © 2025 Event Decorations in Hyderabad</p>
+    </footer>
+
+    <script>
+        const BACKEND_BASE_URL = 'http://localhost:8080'; // **REPLACE THIS** with your Spring Boot backend URL
+        const SUBMIT_REVIEW_ENDPOINT = '/api/events/{eventId}/reviews'; // **REPLACE THIS** with your backend endpoint for submitting reviews
+        const GET_REVIEWS_ENDPOINT = '/api/events/{eventId}/reviews'; // **REPLACE THIS** with your backend endpoint for getting reviews
+
+        const REVIEW_TEXT_FIELD = 'reviewText'; // **REPLACE THIS** with the field name your backend expects for review text
+        const REVIEW_RATING_FIELD = 'rating'; // **REPLACE THIS** with the field name your backend expects for the rating
+
+        const RESPONSE_REVIEW_TEXT_FIELD = 'text'; // **REPLACE THIS** with the field name your backend returns for review text
+        const RESPONSE_REVIEW_RATING_FIELD = 'rating'; // **REPLACE THIS** with the field name your backend returns for the rating
+
+        // Function to search events
+        function searchEvents() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let eventItems = document.querySelectorAll('.event-item');
+
+            eventItems.forEach(item => {
+                let name = item.getAttribute('data-name').toLowerCase();
+                if (name.includes(input)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to toggle the reviews section and fetch reviews from the backend
+        function toggleReviews(button, eventId) {
+            const reviewsDiv = document.getElementById(`reviews${eventId}`);
+            const reviewForm = document.getElementById(`reviewForm${eventId}`);
+            const addReviewBtn = button.parentElement.querySelector('.add-review');
+
+            // Hide review form if it's open
+            if (reviewForm.style.display === "block") {
+                reviewForm.style.display = "none";
+                addReviewBtn.style.display = "inline-block";
+            }
+
+            // Toggle reviews display and fetch from backend
+            if (reviewsDiv.style.display === "none") {
+                const url = `${BACKEND_BASE_URL}${GET_REVIEWS_ENDPOINT.replace('{eventId}', eventId)}`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(reviews => {
+                        reviewsDiv.innerHTML = ''; // Clear previous reviews
+                        if (reviews && reviews.length > 0) {
+                            reviews.forEach(review => {
+                                const reviewElement = document.createElement('p');
+                                reviewElement.innerHTML = `<strong>Rating: ${review[RESPONSE_REVIEW_RATING_FIELD]}/5</strong> - ${review[RESPONSE_REVIEW_TEXT_FIELD]}`;
+                                reviewsDiv.appendChild(reviewElement);
+                            });
+                        } else {
+                            reviewsDiv.innerHTML = '<p>No reviews yet.</p>';
+                        }
+                        reviewsDiv.style.display = "block";
+                        button.textContent = "Hide Reviews";
+                    })
+                    .catch(error => {
+                        console.error('Error fetching reviews:', error);
+                        reviewsDiv.innerHTML = '<p>Failed to load reviews.</p>';
+                        reviewsDiv.style.display = "block";
+                        button.textContent = "Hide Reviews";
+                    });
+            } else {
+                reviewsDiv.style.display = "none";
+                button.textContent = "Show Reviews";
+            }
+        }
+
+        // Function to toggle review form
+        function toggleReviewForm(button, eventId) {
+            const reviewForm = document.getElementById(`reviewForm${eventId}`);
+            const reviewsDiv = document.getElementById(`reviews${eventId}`);
+            const showReviewsBtn = button.parentElement.querySelector('.show-reviews');
+
+            // Hide reviews if they're open
+            if (reviewsDiv.style.display === "block") {
+                reviewsDiv.style.display = "none";
+                showReviewsBtn.textContent = "Show Reviews";
+            }
+
+            // Toggle form display
+            if (reviewForm.style.display === "none") {
+                reviewForm.style.display = "flex"; // Use flex to align elements inside
+                button.parentElement.querySelector('.add-review').style.display = "none";
+            } else {
+                reviewForm.style.display = "none";
+                button.parentElement.querySelector('.add-review').style.display = "inline-block";
+            }
+        }
+
+        // Function to submit a review to the backend
+        function submitReview(eventId) {
+            const reviewText = document.getElementById(`reviewText${eventId}`).value;
+            const rating = document.getElementById(`rating${eventId}`).value;
+
+            if (reviewText && rating) {
+                const url = `${BACKEND_BASE_URL}${SUBMIT_REVIEW_ENDPOINT.replace('{eventId}', eventId)}`;
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ [REVIEW_TEXT_FIELD]: reviewText, [REVIEW_RATING_FIELD]: rating }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && (data.message === 'Review added successfully!' || /* Check for other success messages from your backend */ true)) {
+                        console.log('Review submitted:', data);
+
+                        // Clear form
+                        document.getElementById(`reviewText${eventId}`).value = '';
+                        document.getElementById(`rating${eventId}`).value = '5';
+
+                        // Hide the form and show the add review button
+                        document.getElementById(`reviewForm${eventId}`).style.display = "none";
+                        const addReviewButton = document.querySelector(`#reviewForm${eventId}`).previousElementSibling;
+                        if (addReviewButton && addReviewButton.classList.contains('add-review')) {
+                            addReviewButton.style.display = "inline-block";
+                        }
+
+                        // Optionally, automatically show the updated reviews
+                        const showReviewsButton = document.querySelector(`#reviewForm${eventId}`).previousElementSibling.previousElementSibling;
+                        if (showReviewsButton && showReviewsButton.classList.contains('show-reviews')) {
+                            showReviewsButton.click(); // Simulate a click to refresh reviews
+                        }
+
+                    } else {
+                        alert('Failed to submit review.');
+                        console.error('Error submitting review:', data);
+                    }
+                })
+                .catch(error => {
+                    alert('Failed to submit review.');
+                    console.error('Error submitting review:', error);
+                });
+            } else {
+                alert("Please enter both a review and a rating.");
+            }
+        }
+    </script>
+</body>
+</html>

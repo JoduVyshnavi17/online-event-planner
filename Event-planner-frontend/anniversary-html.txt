@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anniversary Event Organizers in Hyderabad</title>
+  <style>
+    /* (Your existing CSS remains unchanged — omitted here for brevity) */
+    /* You can paste your full CSS from your original code above */
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="hamburger"></div>
+    <div class="hamburger"></div>
+    <div class="hamburger"></div>
+    <div class="options">
+      <a href="fontpage.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div id="successMessage" class="success-message"></div>
+    <h1>Top Anniversary Event Organizers in Hyderabad</h1>
+
+    <!-- Filters -->
+    <div class="filters">
+      <h3>Filters</h3>
+      <select id="location" onchange="applyFilters()">
+        <option value="">Select Location</option>
+        <option value="Banjara Hills">Banjara Hills</option>
+        <option value="Jubilee Hills">Jubilee Hills</option>
+        <option value="Gachibowli">Gachibowli</option>
+      </select>
+      <select id="budget" onchange="applyFilters()">
+        <option value="">Select Budget</option>
+        <option value="50000-100000">₹50,000 - ₹1,00,000</option>
+        <option value="100000-500000">₹1,00,000 - ₹5,00,000</option>
+        <option value="500000-1000000">₹5,00,000 - ₹10,00,000</option>
+      </select>
+      <select id="rating" onchange="applyFilters()">
+        <option value="">Select Rating</option>
+        <option value="4">4 Stars & above</option>
+        <option value="3">3 Stars & above</option>
+        <option value="2">2 Stars & above</option>
+      </select>
+    </div>
+
+    <!-- Event List -->
+    <div id="eventList" class="event-list">
+      <div class="event" data-location="Jubilee Hills" data-budget="50000-100000" data-rating="5">
+        <h3>
+          <img src="https://example.com/anniversary-event1.jpg" alt="Golden Celebrations" />
+          Golden Celebrations - Jubilee Hills
+        </h3>
+        <div class="event-rating">Rating: ⭐️⭐️⭐️⭐️⭐️</div>
+        <button class="review-btn" onclick="toggleReviews('review1', this)">Show Reviews</button>
+        <div class="review-section" id="review1">
+          <div class="review">
+            <strong>Rajesh Kumar</strong> - ⭐️⭐️⭐️⭐️⭐️
+            <p>Best anniversary planning services!</p>
+          </div>
+          <div class="review">
+            <strong>Sneha Patel</strong> - ⭐️⭐️⭐️⭐️
+            <p>Great decorations and arrangements!</p>
+          </div>
+        </div>
+        <button class="order-btn" onclick="openOrderModal('Golden Celebrations')">Place Order</button>
+      </div>
+
+      <div class="event" data-location="Banjara Hills" data-budget="100000-500000" data-rating="5">
+        <h3>
+          <img src="https://example.com/anniversary-event2.jpg" alt="Elite Anniversaries" />
+          Elite Anniversaries - Banjara Hills
+        </h3>
+        <div class="event-rating">Rating: ⭐️⭐️⭐️⭐️⭐️</div>
+        <button class="review-btn" onclick="toggleReviews('review2', this)">Show Reviews</button>
+        <div class="review-section" id="review2">
+          <div class="review">
+            <strong>Ankit Verma</strong> - ⭐️⭐️⭐️⭐️⭐️
+            <p>Memorable anniversary celebration experience.</p>
+          </div>
+          <div class="review">
+            <strong>Meera Sharma</strong> - ⭐️⭐️⭐️⭐️
+            <p>Highly professional and well-organized.</p>
+          </div>
+        </div>
+        <button class="order-btn" onclick="openOrderModal('Elite Anniversaries')">Place Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Anniversary Planners. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Order Modal -->
+  <div id="orderModal" class="order-modal">
+    <div class="order-modal-content">
+      <h2>Place Order for <span id="eventName"></span></h2>
+      <input type="text" id="name" placeholder="Enter your name" />
+      <input type="tel" id="phone" placeholder="Enter your phone number" />
+      <input type="date" id="eventDate" placeholder="Event Date" />
+      <button onclick="submitOrder()" class="order-btn">Submit Order</button>
+      <button class="close-btn" onclick="closeOrderModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleReviews(id, btn) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === "block" ? "none" : "block";
+      btn.textContent = section.style.display === "block" ? "Hide Reviews" : "Show Reviews";
+    }
+
+    function applyFilters() {
+      const location = document.getElementById("location").value;
+      const budget = document.getElementById("budget").value;
+      const rating = document.getElementById("rating").value;
+      const events = document.querySelectorAll(".event");
+
+      events.forEach(event => {
+        const matchesLocation = !location || event.dataset.location === location;
+        const matchesBudget = !budget || event.dataset.budget === budget;
+        const matchesRating = !rating || parseInt(event.dataset.rating) >= parseInt(rating);
+        event.style.display = (matchesLocation && matchesBudget && matchesRating) ? "block" : "none";
+      });
+    }
+
+    function openOrderModal(eventName) {
+      document.getElementById("eventName").textContent = eventName;
+      document.getElementById("orderModal").style.display = "flex";
+    }
+
+    function closeOrderModal() {
+      document.getElementById("orderModal").style.display = "none";
+    }
+
+    function submitOrder() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const eventDate = document.getElementById("eventDate").value;
+      const organizationName = document.getElementById("eventName").textContent;
+
+      if (name && phone && eventDate) {
+        const order = {
+          name: name,
+          phoneNumber: phone,
+          eventDate: eventDate,
+          organizationName: organizationName
+        };
+
+        fetch("http://localhost:8080/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(order)
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.text();
+          } else {
+            throw new Error("Order submission failed");
+          }
+        })
+        .then(data => {
+          document.getElementById("successMessage").textContent =
+            `Thank you, ${name}! Your order has been successfully submitted. We will get in touch with you soon.`;
+          document.getElementById("successMessage").style.display = "block";
+          closeOrderModal();
+        })
+        .catch(error => {
+          alert("There was an error submitting your order. Please try again.");
+          console.error("Error:", error);
+        });
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
+  </script>
+</body>
+</html>

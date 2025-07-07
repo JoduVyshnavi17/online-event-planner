@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catering Services in Hyderabad</title>
+    <style>
+        /* Styling as provided in the previous response */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar .hamburger {
+            width: 40px;
+            height: 6px;
+            background-color: white;
+            margin: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar:hover {
+            width: 200px;
+        }
+
+        .sidebar .options {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+
+        .sidebar:hover .options {
+            display: flex;
+        }
+
+        .sidebar .options a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            text-align: left;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar:hover .options a {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .container {
+            margin-left: 80px;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+        }
+
+        /* Order Confirmation Message */
+        #orderConfirmation {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            font-weight: bold;
+        }
+
+        /* Search Bar and Filters */
+        .search-filters {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            width: 45%;
+        }
+
+        .filters {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .filters select, .filters input {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 30%;
+        }
+
+        .filters label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Catering List */
+        .catering-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-bottom: 100px;
+        }
+
+        .catering {
+            padding: 15px;
+            margin: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        .catering h3 {
+            margin: 0;
+        }
+
+        .catering-rating {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #f39c12;
+        }
+
+        .catering .budget {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #218838;
+        }
+
+        .reviews-section h5 {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .reviews-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .reviews-list li {
+            margin-bottom: 5px;
+            padding: 8px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .show-reviews, .add-review-btn, .menu-btn, .place-order-btn {
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            display: inline-block;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .show-reviews {
+            color:#218838;
+            border: 1px solid hsl(240, 11%, 2%);
+        }
+
+        .show-reviews:hover {
+            background-color: #e7f2ff;
+        }
+
+        .add-review-btn {
+            background-color: #218838;
+            color: white;
+            border: none;
+        }
+
+        .add-review-btn:hover {
+            background-color: #218838;
+        }
+
+        .menu-btn {
+            background-color:#218838;
+            color: white;
+            border: none;
+        }
+
+        .menu-btn:hover {
+            background-color:#218838;
+        }
+
+        .place-order-btn {
+            background-color: #218838;
+            color: white;
+            border: none;
+        }
+
+        .place-order-btn:hover {
+            background-color: #218838;
+        }
+
+        .review-input-area {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .review-input-area textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .review-input-area button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .review-input-area button:hover {
+            background-color: #218838;
+        }
+
+        /* Menu Section Below Each Catering Service */
+        .menu-section {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .menu-section h4 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .menu-section h5 {
+            margin-top: 10px;
+        }
+
+        .menu-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .menu-section ul li {
+            padding: 5px 0;
+        }
+
+        .menu-section .food-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .order-btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .order-btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .order-btn:hover {
+            background: #218838;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+
+        /* Order Modal */
+        .order-modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .order-modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 800px;
+            text-align: center;
+        }
+
+        .order-modal input, .order-modal button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .order-modal button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        .order-modal button:hover {
+            background-color: #218838;
+        }
+
+        .close-btn {
+            background-color: red;
+            color: white;
+            padding: 8px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .close-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+<div id="orderConfirmation">Thank you <span id="customerName"></span> for your order. We will get back to you soon.</div>
+
+<div class="sidebar">
+    <div class="hamburger"></div>
+    <div class="hamburger"></div>
+    <div class="hamburger"></div>
+
+    <div class="options">
+        <a href="fontpage.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="#">Contact</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Catering Services in Hyderabad</h1>
+
+    <div class="search-filters">
+        <div class="search-bar">
+            <input type="text" id="searchInput" onkeyup="filterCateringServices()" placeholder="Search for Catering Service...">
+        </div>
+
+        <div class="filters">
+            <div class="filter-item">
+                <label for="budget">Budget</label>
+                <select id="budget" onchange="filterCateringServices()">
+                    <option value="all">All</option>
+                    <option value="under50">Under ₹50,000</option>
+                    <option value="50to100">₹50,000 - ₹100,000</option>
+                    <option value="over100">Over ₹100,000</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="rating">Rating</label>
+                <select id="rating" onchange="filterCateringServices()">
+                    <option value="all">All</option>
+                    <option value="4plus">4+ Stars</option>
+                    <option value="3plus">3+ Stars</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="location">Location</label>
+                <select id="location" onchange="filterCateringServices()">
+                    <option value="all">All Locations</option>
+                    <option value="hyderabad">Hyderabad</option>
+                    <option value="secunderabad">Secunderabad</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="cateringList" class="catering-list">
+        <div class="catering" data-name="Classic Catering" data-budget="50000" data-rating="5" data-location="hyderabad">
+            <h3>Classic Catering</h3>
+            <div class="budget">₹50,000</div>
+            <div class="catering-rating">Rating: ⭐️⭐️⭐️⭐️⭐️ (5/5)</div>
+            <div class="catering-location">Location: Hyderabad</div>
+            <button class="menu-btn" onclick="toggleMenuDisplay('menu1')">Menu</button>
+            <button class="place-order-btn" onclick="openOrderModal('Classic Catering')">Place Order</button>
+            <button class="show-reviews" onclick="toggleReviews('reviews1')">Show Reviews</button>
+            <button class="add-review-btn" onclick="openAddReview('reviewInput1')">Add Review</button>
+            <div id="reviews1" class="reviews-section">
+                <h5>Reviews:</h5>
+                <ul id="reviewsList1" class="reviews-list">
+                    </ul>
+                <div id="reviewInput1" class="review-input-area">
+                    <textarea id="newReviewText1" placeholder="Write your review here"></textarea>
+                    <button onclick="submitReview('reviewInput1', 'reviewsList1', 'Classic Catering')">Submit Review</button>
+                </div>
+            </div>
+            <img src="https://via.placeholder.com/400x200?text=Classic+Catering+Image" alt="Classic Catering" class="food-img">
+            <div id="menu1" class="menu-section">
+                <h4>Classic Catering Menu</h4>
+                <h5>Breakfast</h5>
+                <ul>
+                    <li>North India: Aloo Paratha, Curd</li>
+                    <li>South India: Idli, Dosa, Sambhar</li>
+                </ul>
+                <h5>Lunch</h5>
+                <ul>
+                    <li>Paneer Butter Masala, Naan</li>
+                    <li>Chicken Biryani, Raita</li>
+                </ul>
+                <h5>Dinner</h5>
+                <ul>
+                    <li>Veg Korma, Rice</li>
+                    <li>Grilled Fish, Salad</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="catering" data-name="Gourmet Catering" data-budget="75000" data-rating="4" data-location="secunderabad">
+            <h3>Gourmet Catering</h3>
+            <div class="budget">₹75,000</div>
+            <div class="catering-rating">Rating: ⭐️⭐️⭐️⭐️ (4/5)</div>
+            <div class="catering-location">Location: Secunderabad</div>
+            <button class="menu-btn" onclick="toggleMenuDisplay('menu2')">Menu</button>
+            <button class="place-order-btn" onclick="openOrderModal('Gourmet Catering')">Place Order</button>
+            <button class="show-reviews" onclick="toggleReviews('reviews2')">Show Reviews</button>
+            <button class="add-review-btn" onclick="openAddReview('reviewInput2')">Add Review</button>
+            <div id="reviews2" class="reviews-section">
+                <h5>Reviews:</h5>
+                <ul id="reviewsList2" class="reviews-list">
+                    </ul>
+                <div id="reviewInput2" class="review-input-area">
+                    <textarea id="newReviewText2" placeholder="Write your review here"></textarea>
+                    <button onclick="submitReview('reviewInput2', 'reviewsList2', 'Gourmet Catering')">Submit Review</button>
+                </div>
+            </div>
+            <img src="https://via.placeholder.com/400x200?text=Gourmet+Catering+Image" alt="Gourmet Catering" class="food-img">
+            <div id="menu2" class="menu-section">
+                <h4>Gourmet Catering Menu</h4>
+                <h5>Breakfast</h5>
+                <ul>
+                    <li>Croissants, Fruit Salad</li>
+                    <li>Pancakes, Maple Syrup</li>
+                </ul>
+                <h5>Lunch</h5>
+                <ul>
+                    <li>Chicken Sandwich, Soup</li>
+                    <li>Vegetarian Wrap, Fries</li>
+                </ul>
+                <h5>Dinner</h5>
+                <ul>
+                    <li>Grilled Lamb, Couscous</li>
+                    <li>Pasta Primavera</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="catering" data-name="Royal Catering" data-budget="100000" data-rating="5" data-location="hyderabad">
+            <h3>Royal Catering</h3>
+            <div class="budget">₹100,000</div>
+            <div class="catering-rating">Rating: ⭐️⭐️⭐️⭐️⭐️ (5/5)</div>
+            <div class="catering-location">Location: Hyderabad</div>
+            <button class="menu-btn" onclick="toggleMenuDisplay('menu3')">Menu</button>
+            <button class="place-order-btn" onclick="openOrderModal('Royal Catering')">Place Order</button>
+            <button class="show-reviews" onclick="toggleReviews('reviews3')">Show Reviews</button>
+            <button class="add-review-btn" onclick="openAddReview('reviewInput3')">Add Review</button>
+            <div id="reviews3" class="reviews-section">
+                <h5>Reviews:</h5>
+                <ul id="reviewsList3" class="reviews-list">
+                    </ul>
+                <div id="reviewInput3" class="review-input-area">
+                    <textarea id="newReviewText3" placeholder="Write your review here"></textarea>
+                    <button onclick="submitReview('reviewInput3', 'reviewsList3', 'Royal Catering')">Submit Review</button>
+                </div>
+            </div>
+            <img src="https://via.placeholder.com/400x200?text=Royal+Catering+Image" alt="Royal Catering" class="food-img">
+            <div id="menu3" class="menu-section">
+                <h4>Royal Catering Menu</h4>
+                <h5>Breakfast</h5>
+                <ul>
+                    <li>French Toast, Berries</li>
+                    <li>Eggs Benedict, Hash Browns</li>
+                </ul>
+                <h5>Lunch</h5>
+                <ul>
+                    <li>Grilled Chicken, Mashed Potatoes</li>
+                    <li>Vegetarian Pasta</li>
+                </ul>
+                <h5>Dinner</h5>
+                <ul>
+                    <li>Steak, Asparagus</li>
+                    <li>Risotto, Salad</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="orderModal" class="order-modal">
+    <div class="order-modal-content">
+        <h2>Place Order for <span id="eventName"></span></h2>
+        <input type="text" id="name" placeholder="Enter your name">
+        <input type="tel" id="phone" placeholder="Enter your phone number">
+        <input type="date" id="eventDate" placeholder="Event Date">
+        <button onclick="submitOrder()" class="order-btn">Submit Order</button>
+        <button class="close-btn" onclick="closeOrderModal()">Close</button>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Catering Services. All Rights Reserved.</p>
+</footer>
+
+<script>
+    function toggleMenuDisplay(menuId) {
+        var menu = document.getElementById(menuId);
+        menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+    }
+
+    function toggleReviews(reviewsId) {
+        var reviews = document.getElementById(reviewsId);
+        reviews.style.display = (reviews.style.display === "none" || reviews.style.display === "") ? "block" : "none";
+    }
+
+    function openAddReview(reviewInputId) {
+        var reviewInput = document.getElementById(reviewInputId);
+        reviewInput.style.display = "block";
+    }
+
+    function submitReview(reviewInputId, reviewsListId, cateringName) {
+        var reviewTextarea = document.getElementById("newReviewText" + reviewInputId.slice(-1));
+        var reviewsList = document.getElementById(reviewsListId);
+        var newReview = document.createElement("li");
+        newReview.textContent = "<strong>Anonymous</strong> - " + reviewTextarea.value;
+        reviewsList.appendChild(newReview);
+        reviewTextarea.value = ""; // Clear the textarea
+        document.getElementById(reviewInputId).style.display = "none"; // Hide input area
+    }
+
+    function filterCateringServices() {
+        var searchInput = document.getElementById("searchInput").value.toLowerCase();
+        var budgetFilter = document.getElementById("budget").value;
+        var ratingFilter = document.getElementById("rating").value;
+        var locationFilter = document.getElementById("location").value;
+        var cateringServices = document.querySelectorAll(".catering");
+
+        cateringServices.forEach(service => {
+            var name = service.dataset.name.toLowerCase();
+            var budget = parseInt(service.dataset.budget);
+            var rating = parseInt(service.dataset.rating);
+            var location = service.dataset.location.toLowerCase();
+            var display = true;
+
+            if (searchInput && !name.includes(searchInput)) {
+                display = false;
+            }
+
+            if (budgetFilter !== "all") {
+                if (budgetFilter === "under50" && budget >= 50000) {
+                    display = false;
+                } else if (budgetFilter === "50to100" && (budget < 50000 || budget > 100000)) {
+                    display = false;
+                } else if (budgetFilter === "over100" && budget <= 100000) {
+                    display = false;
+                }
+            }
+
+            if (ratingFilter !== "all") {
+                var minRating = parseInt(ratingFilter.replace("plus", ""));
+                if (rating < minRating) {
+                    display = false;
+                }
+            }
+
+            if (locationFilter !== "all" && locationFilter !== location) {
+                display = false;
+            }
+
+            service.style.display = display ? "block" : "none";
+        });
+    }
+
+    function openOrderModal(eventName) {
+        document.getElementById("eventName").textContent = eventName;
+        document.getElementById("orderModal").style.display = "flex";
+    }
+
+    function closeOrderModal() {
+        document.getElementById("orderModal").style.display = "none";
+    }
+
+    function submitOrder() {
+    var name = document.getElementById("name").value;
+    var phone = document.getElementById("phone").value;
+    var eventDate = document.getElementById("eventDate").value;
+    var eventName = document.getElementById("eventName").textContent;
+
+    if (name && phone && eventDate && eventName) {
+        const orderData = {
+            name: name,
+            phoneNumber: phone,
+            eventDate: eventDate,
+            cateringServiceName: eventName
+        };
+
+        console.log("Order Data:", orderData); // Log order data
+
+        fetch("http://localhost:8080/api/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderData)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error("Failed to submit order.");
+            }
+        })
+        .then(data => {
+            document.getElementById("customerName").textContent = name;
+            document.getElementById("orderConfirmation").style.display = "block";
+            setTimeout(() => {
+                document.getElementById("orderConfirmation").style.display = "none";
+            }, 5000);
+            document.getElementById("orderModal").style.display = "none";
+        })
+        .catch(error => {
+            console.error("Error details:", error); // Log error details
+            alert("Error: " + error.message);
+        });
+
+    } else {
+        alert("Please fill in all fields.");
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Event Organizers in Hyderabad</title>
+  <style> body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.3s ease;
+    z-index: 100;
+}
+
+.sidebar .hamburger {
+    width: 40px;
+    height: 6px;
+    background-color: white;
+    margin: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.sidebar:hover {
+    width: 200px;
+}
+
+.sidebar .options {
+    display: none;
+    flex-direction: column;
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+.sidebar:hover .options {
+    display: flex;
+}
+
+.sidebar .options a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar:hover .options a {
+    opacity: 1;
+}
+
+/* Main Content */
+.container {
+    margin-left: 80px;
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+
+/* Order Confirmation Message */
+#orderConfirmation {
+    display: none;
+    background-color: #28a745;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    font-weight: bold;
+}
+
+/* Search Bar and Filters */
+.search-filters {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    width: 45%;
+}
+
+.filters {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.filters select, .filters input {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 30%;
+}
+
+.filters label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Catering List */
+.catering-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 100px;
+}
+
+.catering {
+    padding: 15px;
+    margin: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 1px solid #ddd;
+    position: relative;
+}
+
+.catering:hover {
+    transform: scale(1.05);
+}
+
+.catering h3 {
+    margin: 0;
+}
+
+.catering-rating {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #f39c12;
+}
+
+.catering .budget {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Reviews Section */
+.reviews {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+    display: none;
+}
+
+.show-reviews {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+/* Menu Section Below Each Catering Service */
+.menu-section {
+    display: none;
+    margin-top: 10px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: relative;
+    margin-bottom: 60px; /* Adjusted margin for space between menu and place order button */
+}
+
+.menu-section h4 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.menu-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-section ul li {
+    padding: 5px 0;
+}
+
+.menu-section .food-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.order-btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.order-btn, .show-reviews {
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.order-btn {
+    background: #28a745;
+    color: white;
+    width: 45%;
+    text-align: center;
+}
+
+.order-btn:hover {
+    background: #218838;
+}
+
+.show-reviews:hover {
+    color: #0056b3;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+/* Order Modal */
+.order-modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.order-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 800px;
+    text-align: center;
+}
+
+.order-modal input, .order-modal button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.order-modal button {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.order-modal button:hover {
+    background-color: #218838;
+}
+
+.close-btn {
+    background-color: red;
+    color: white;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.close-btn:hover {
+    background-color: darkred;
+}
+
+
+    /* [Styles remain unchanged, trimmed here for brevity] */
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="hamburger"></div>
+    <div class="hamburger"></div>
+    <div class="hamburger"></div>
+
+    <div class="options">
+      <a href="fontpage.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div id="successMessage" class="success-message"></div>
+
+    <h1>Top Birthday Event Organizers in Hyderabad</h1>
+
+    <!-- Filters -->
+    <div class="filters">
+      <h3>Filters</h3>
+      <select id="location" onchange="applyFilters()">
+        <option value="">Select Location</option>
+        <option value="Banjara Hills">Banjara Hills</option>
+        <option value="Jubilee Hills">Jubilee Hills</option>
+        <option value="Gachibowli">Gachibowli</option>
+      </select>
+
+      <select id="budget" onchange="applyFilters()">
+        <option value="">Select Budget</option>
+        <option value="50000-100000">₹50,000 - ₹1,00,000</option>
+        <option value="100000-500000">₹1,00,000 - ₹5,00,000</option>
+        <option value="500000-1000000">₹5,00,000 - ₹10,00,000</option>
+      </select>
+
+      <select id="rating" onchange="applyFilters()">
+        <option value="">Select Rating</option>
+        <option value="4">4 Stars & above</option>
+        <option value="3">3 Stars & above</option>
+        <option value="2">2 Stars & above</option>
+      </select>
+    </div>
+
+    <!-- Events -->
+    <div id="eventList" class="event-list">
+      <!-- Sample Event 1 -->
+      <div class="event" data-location="Jubilee Hills" data-budget="50000-100000" data-rating="5">
+        <h3><img src="https://example.com/anniversary-event1.jpg" alt="Golden Celebrations">Golden Celebrations - Jubilee Hills</h3>
+        <div class="event-rating">Rating: ⭐️⭐️⭐️⭐️⭐️</div>
+        <button class="review-btn" onclick="toggleReviews('review1', this)">Show Reviews</button>
+        <div class="review-section" id="review1">
+          <div class="review"><strong>Rajesh Kumar</strong> - ⭐️⭐️⭐️⭐️⭐️<p>Best anniversary planning services!</p></div>
+          <div class="review"><strong>Sneha Patel</strong> - ⭐️⭐️⭐️⭐️<p>Great decorations and arrangements!</p></div>
+        </div>
+        <button class="order-btn" onclick="openOrderModal('Golden Celebrations')">Place Order</button>
+      </div>
+
+      <!-- Sample Event 2 -->
+      <div class="event" data-location="Banjara Hills" data-budget="100000-500000" data-rating="4">
+        <h3><img src="https://example.com/anniversary-event2.jpg" alt="Royal Weddings">Royal Weddings - Banjara Hills</h3>
+        <div class="event-rating">Rating: ⭐️⭐️⭐️⭐️</div>
+        <button class="review-btn" onclick="toggleReviews('review2', this)">Show Reviews</button>
+        <div class="review-section" id="review2">
+          <div class="review"><strong>Meena Reddy</strong> - ⭐️⭐️⭐️⭐️<p>Fantastic service and food!</p></div>
+        </div>
+        <button class="order-btn" onclick="openOrderModal('Royal Weddings')">Place Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Modal -->
+  <div id="orderModal" class="order-modal">
+    <div class="order-modal-content">
+      <h2>Place Your Order</h2>
+      <p id="eventNameDisplay"></p>
+      <input type="text" id="name" placeholder="Your Name" />
+      <input type="text" id="phone" placeholder="Your Phone Number" />
+      <input type="date" id="eventDate" />
+      <input type="number" id="quantity" placeholder="Quantity" />
+      <button onclick="submitOrder()">Submit Order</button>
+      <button class="close-btn" onclick="closeOrderModal()">Close</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Birthday Event Organizers in Hyderabad. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    let currentEventName = '';
+
+    function openOrderModal(eventName) {
+      currentEventName = eventName;
+      document.getElementById("eventNameDisplay").textContent = "Event: " + eventName;
+      document.getElementById("orderModal").style.display = "flex";
+    }
+
+    function closeOrderModal() {
+      document.getElementById("orderModal").style.display = "none";
+    }
+
+    function submitOrder() {
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phoneNumber").value.trim();
+  const eventDate = document.getElementById("eventDate").value;
+  const quantity = document.getElementById("").value;
+
+  if (!name || !phone || !eventDate || !quantity) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const orderData = {
+    customerName: name,
+    phoneNumber: phone,
+    eventDate: eventDate,
+    eventName: currentEventName,
+    quantity: parseInt(quantity)
+  };
+
+  console.log("Submitting order:", orderData); // 🐛 Debug log
+
+  fetch("http://localhost:8080/api/orders", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(orderData)
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Error from server.");
+    return response.text();
+  })
+  .then(data => {
+    document.getElementById("successMessage").textContent = "Thank you, " + name + "! Your order has been successfully submitted.";
+    document.getElementById("successMessage").style.display = "block";
+    closeOrderModal();
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("eventDate").value = "";
+    document.getElementById("quantity").value = "";
+  })
+  .catch(error => {
+    alert("Submission failed: " + error.message);
+  });
+}
+
+
+    function toggleReviews(reviewId, btn) {
+      const section = document.getElementById(reviewId);
+      section.style.display = (section.style.display === 'block') ? 'none' : 'block';
+      btn.textContent = (section.style.display === 'block') ? 'Hide Reviews' : 'Show Reviews';
+    }
+
+    function applyFilters() {
+      const location = document.getElementById("location").value;
+      const budget = document.getElementById("budget").value;
+      const rating = document.getElementById("rating").value;
+      const events = document.querySelectorAll(".event");
+
+      events.forEach(event => {
+        const matchLocation = !location || event.dataset.location === location;
+        const matchBudget = !budget || event.dataset.budget === budget;
+        const matchRating = !rating || parseInt(event.dataset.rating) >= parseInt(rating);
+        event.style.display = (matchLocation && matchBudget && matchRating) ? "block" : "none";
+      });
+    }
+  </script>
+</body>
+</html>

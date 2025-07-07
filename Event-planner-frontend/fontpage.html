@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="event.css">
+    <title>Online Event Management System</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            text-align: center;
+            overflow: hidden; /* Prevent scrolling */
+            flex-direction: column;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 50px; /* Small initial width */
+            height: 100%;
+            background-color: #333;
+            color: white;
+            transition: width 0.3s ease;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            z-index: 100;
+        }
+
+        /* Hamburger Icon (3 Lines) */
+        .sidebar .hamburger {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+            margin: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Sidebar Expansion on Hover */
+        .sidebar:hover {
+            width: 200px; /* Expanded width when hovering */
+        }
+
+        .sidebar:hover .hamburger {
+            transform: rotate(90deg); /* Rotate hamburger icon when expanded */
+        }
+
+        /* Sidebar Links */
+        .sidebar .options {
+            display: none;
+            flex-direction: column;
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+
+        /* Show the options when sidebar is hovered */
+        .sidebar:hover .options {
+            display: flex;
+        }
+
+        .sidebar .options a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            text-align: left;
+        }
+
+        .sidebar .options a:hover {
+            background-color: #555;
+        }
+
+        /* Contact Information Styling */
+        .contact-info {
+            display: none;
+            padding: 20px;
+            background-color: #444;
+            color: white;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .contact-info p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .contact-info p strong {
+            color: #f0f0f0;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 220px; /* Ensure space is provided after the sidebar */
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center the content horizontally */
+            flex-direction: column;
+            text-align: center;
+            gap: 30px; /* Add gap between elements */
+            min-height: 80vh; /* Make sure the content takes up some vertical space */
+        }
+
+        /* Title Styling */
+        h1#text {
+            font-size: 3.5em; /* Larger font size */
+            color: #333;
+            font-family: 'Roboto', sans-serif; /* Stylish Font */
+            letter-spacing: 5px; /* Add space between letters */
+            text-transform: uppercase; /* Capitalize the text */
+            background-image: linear-gradient(to right, #ff7f50, #ff6347); /* Gradient Text */
+            -webkit-background-clip: text; /* Make gradient text effect work */
+            color: transparent; /* Make text color transparent to show the gradient */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow to text */
+            animation: fadeIn 2s ease-out; /* Animation */
+            margin-bottom: 40px; /* Space below the title */
+        }
+
+        /* Fade-In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Container for images and buttons */
+        .container {
+            display: flex;
+            justify-content: center; /* Center the blocks */
+            gap: 30px; /* Space between the images */
+            flex-wrap: wrap; /* Wrap images on smaller screens */
+            width: 100%; /* Ensure the container spans the entire width */
+        }
+
+        /* Styling for images */
+        .image-wrapper {
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            width: 200px; /* Fix width for all image blocks */
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Caption Styling */
+        .container .image-wrapper p {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .container {
+                flex-direction: column; /* Stack images vertically on small screens */
+                gap: 40px;
+                margin-left: 0; /* Remove left margin for mobile */
+            }
+
+            h1#text {
+                font-size: 2.5em; /* Adjust font size on small screens */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Hamburger Icon -->
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+        <div class="hamburger"></div>
+        
+        <!-- Sidebar Menu Links -->
+        <div class="options">
+            <a href="#">Home</a>
+            <a href="about.html">About</a>
+            <a href="#" onclick="toggleContactInfo()">Contact</a>
+            
+        </div>
+        <!-- Contact Information (Initially Hidden) -->
+        <div id="contactInfo" class="contact-info">
+            <p><strong>Phone Number:</strong> 9876543210</p>
+            <p><strong>Email:</strong> contact@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Title placed above the blocks -->
+        <h1 id="text">Online Event Planner</h1>
+        
+        <!-- Container for images and buttons -->
+        <div class="container">
+            <!-- Event Image with Caption -->
+            <div class="image-wrapper">
+                <a href="events.html">
+                    <img src="https://thumbs.dreamstime.com/b/events-icon-calendar-simple-vector-white-background-122490231.jpg" alt="events">
+                </a>
+                <p>Events</p>
+            </div>
+            <!-- Catering Image with Caption -->
+            <div class="image-wrapper">
+                <a href="catering.html">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1940/1940981.png" alt="catering">
+                </a>
+                <p>Catering</p>
+            </div>
+            <!-- Previous Decoration Image with Caption -->
+            <div class="image-wrapper">
+                <a href="previous-events.html">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS66oPioSR75yAT3tTaWHffl2d3UZduAHB03w&s" alt="previous decorations">
+                </a>
+                <p>Previous Decorations</p>
+            </div>
+            <!-- Event Organization Image with Caption -->
+            <div class="image-wrapper">
+                <a href="event-manager.html">
+                    <img src="https://cdn-icons-png.flaticon.com/512/6994/6994019.png" alt="Event Manager">
+                </a>
+                <p>Event Organization</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Event Planning. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Function to toggle the visibility of the contact information in the sidebar
+        function toggleContactInfo() {
+            const contactInfo = document.getElementById('contactInfo');
+            if (contactInfo.style.display === 'none' || contactInfo.style.display === '') {
+                contactInfo.style.display = 'block'; // Show the contact info
+            } else {
+                contactInfo.style.display = 'none'; // Hide the contact info
+            }
+        }
+    </script>
+
+</body>
+</html>
